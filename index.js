@@ -56,8 +56,6 @@ async function run() {
         res.send(result);
       })
 
-
-  
       app.patch('/allToy/details/:id', async (req, res) => {
         const id = req.params.id;
         const filter = { _id: new ObjectId(id) };
@@ -82,18 +80,76 @@ async function run() {
 
 
       
+      app.get('/toySearchBytitle/:text', async(req, res) => {
+        const searchText = req.params.text;
+        const searchResult = await toyCollection.find({
+          toy_name: { $regex: searchText, $options: 'i' }
+        }).toArray();
+
+       // console.log(searchResult)
+        res.send(searchResult)
+      });
+  
+  
+      app.get('/allToy/details/:id', async (req, res) => {
+        const id = req.params.id;
+        //console.log(id);
+        const query = { _id: new ObjectId(id) };
+        const result = await toyCollection.findOne(query);
+        res.send(result);
+      })
+  
+      app.get('/allToy/:category', async (req, res) => {
+         //console.log(req.params.category);
+
+         const upperString = req.params.category;
+          const lowerString = upperString.toLowerCase();
+
+//console.log(lowerString);
+        if (lowerString === 'car' || lowerString === 'bus' || lowerString === 'truck') {
+          const result = await toyCollection.find({ category: lowerString }).toArray();
+          return res.send(result)
+        }
 
 
+     
+  
+      })
+  
+      app.get('/mytoys', async (req, res) => {
+        //console.log(req.query);
+        let query = {};
+        if (req.query?.email) {
+          query = { email: req.query.email }
+        }
+        const cursor = toyCollection.find(query);
+        const result = await cursor.toArray();
+        res.send(result);
+      })
 
-      
+      app.get('/mytoys/ascending', async (req, res) => {
+        //console.log(req.query);
+        let query = {};
+        if (req.query?.email) {
+          query = { email: req.query.email }
+        }
+        const cursor = toyCollection.find(query).sort({price: 1});
+        const result = await cursor.toArray();
+        res.send(result);
+      })
+  
+      app.get('/mytoys/descending', async (req, res) => {
+        //console.log(req.query);
+        let query = {};
+        if (req.query?.email) {
+          query = { email: req.query.email }
+        }
+        const cursor = toyCollection.find(query).sort({price: -1});
+        const result = await cursor.toArray();
+        res.send(result);
+      })
 
-   
 
-
-
-
-
-      
   
   
       // Send a ping to confirm a successful connection
