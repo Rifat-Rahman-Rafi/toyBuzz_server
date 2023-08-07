@@ -101,19 +101,13 @@ async function run() {
   
       app.get('/allToy/:category', async (req, res) => {
          //console.log(req.params.category);
-
          const upperString = req.params.category;
           const lowerString = upperString.toLowerCase();
-
-//console.log(lowerString);
         if (lowerString === 'car' || lowerString === 'bus' || lowerString === 'truck') {
           const result = await toyCollection.find({ category: lowerString }).toArray();
           return res.send(result)
         }
 
-
-     
-  
       })
   
       app.get('/mytoys', async (req, res) => {
@@ -149,10 +143,6 @@ async function run() {
         res.send(result);
       })
 
-
-  
-  
-      // Send a ping to confirm a successful connection
       await client.db("admin").command({ ping: 1 });
       console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
