@@ -40,7 +40,7 @@ async function run() {
       app.post('/postallToy', async (req, res) => {
         const newToy = req.body;
     
-        // newToy.category = newToy.category.toLowerCase();
+         newToy.category = newToy.category.toLowerCase();
 
         // Insert the new toy into the MongoDB collection
         const result = await toyCollection.insertOne(newToy);
