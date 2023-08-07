@@ -36,7 +36,23 @@ async function run() {
         res.send(result);
       })
 
+
+      app.post('/postallToy', async (req, res) => {
+        const newToy = req.body;
     
+        // newToy.category = newToy.category.toLowerCase();
+
+        // Insert the new toy into the MongoDB collection
+        const result = await toyCollection.insertOne(newToy);
+        res.send(result);
+        
+      })
+
+
+
+
+
+      
   
   
       // Send a ping to confirm a successful connection
