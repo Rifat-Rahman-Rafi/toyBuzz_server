@@ -30,7 +30,13 @@ async function run() {
       const toyCollection = client.db("toyCarTraderDB").collection("carDetails");
   
 
-      
+      app.get('/allToy', async (req, res) => {
+        const cursor = toyCollection.find().limit(20);
+        const result = await cursor.toArray();
+        res.send(result);
+      })
+
+    
   
   
       // Send a ping to confirm a successful connection
